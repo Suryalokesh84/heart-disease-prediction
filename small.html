@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Heart Disease Prediction</h1>
+        <form action="/predict" method="post">
+            <div id="ageInput">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required><br><br>
+            </div>
+            
+            <div id="sexInput" style="display:none;">
+                <label for="sex">Sex (0 for female, 1 for male):</label>
+                <input type="number" id="sex" name="sex" required><br><br>
+            </div>
+
+            <div id="cpInput" style="display:none;">
+                <label for="cp">Chest Pain Type (cp):</label>
+                <input type="number" id="cp" name="cp" required><br><br>
+            </div>
+
+            <div id="trestbpsInput" style="display:none;">
+                <label for="trestbps">Resting Blood Pressure (trestbps):</label>
+                <input type="number" id="trestbps" name="trestbps" required><br><br>
+            </div>
+
+            <div id="cholInput" style="display:none;">
+                <label for="chol">Serum Cholesterol (chol):</label>
+                <input type="number" id="chol" name="chol" required><br><br>
+            </div>
+
+            <div id="fbsInput" style="display:none;">
+                <label for="fbs">Fasting Blood Sugar (fbs):</label>
+                <input type="number" id="fbs" name="fbs" required><br><br>
+            </div>
+
+            <div id="restecgInput" style="display:none;">
+                <label for="restecg">Resting Electrocardiographic Results (restecg):</label>
+                <input type="number" id="restecg" name="restecg" required><br><br>
+            </div>
+
+            <div id="thalachInput" style="display:none;">
+                <label for="thalach">Maximum Heart Rate Achieved (thalach):</label>
+                <input type="number" id="thalach" name="thalach" required><br><br>
+            </div>
+
+            <div id="exangInput" style="display:none;">
+                <label for="exang">Exercise Induced Angina (exang):</label>
+                <input type="number" id="exang" name="exang" required><br><br>
+            </div>
+
+            <div id="oldpeakInput" style="display:none;">
+                <label for="oldpeak">ST Depression Induced by Exercise Relative to Rest (oldpeak):</label>
+                <input type="number" id="oldpeak" name="oldpeak" required><br><br>
+            </div>
+
+            <div id="slopeInput" style="display:none;">
+                <label for="slope">Slope of the Peak Exercise ST Segment (slope):</label>
+                <input type="number" id="slope" name="slope" required><br><br>
+            </div>
+
+            <div id="caInput" style="display:none;">
+                <label for="ca">Number of Major Vessels (0-3) Colored by Flourosopy (ca):</label>
+                <input type="number" id="ca" name="ca" required><br><br>
+            </div>
+
+            <div id="thalInput" style="display:none;">
+                <label for="thal">Thal:</label>
+                <input type="number" id="thal" name="thal" required><br><br>
+            </div>
+
+            <input type="submit" value="Predict">
+        </form>
+    </div>
+
+    <script>
+        var fields = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal'];
+        var currentFieldIndex = 0;
+        var submitButton = document.querySelector('input[type="submit"]');
+        submitButton.value = 'Next'; // Set initial button text to 'Next'
+    
+        function showNextField(e) {
+            if (currentFieldIndex < fields.length - 1) {
+                e.preventDefault(); // Prevent form from being submitted
+    
+                // Check if current field is empty
+                var currentInput = document.getElementById(fields[currentFieldIndex]);
+                if (currentInput.value.trim() === '') {
+                    alert('Please fill in all fields before proceeding.');
+                    return;
+                }
+    
+                document.getElementById(fields[currentFieldIndex] + 'Input').style.display = 'none';
+                currentFieldIndex++;
+                var nextField = document.getElementById(fields[currentFieldIndex] + 'Input');
+                nextField.style.display = 'block';
+                nextField.querySelector('input').focus();
+                submitButton.value = currentFieldIndex < fields.length - 1 ? 'Next' : 'Predict';
+            }
+        }
+    
+        fields.forEach(function(field) {
+            document.getElementById(field).addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    showNextField(e);
+                }
+            });
+        });
+    
+        // Show next field when 'Next' button is clicked
+        submitButton.addEventListener('click', showNextField);
+    </script>
+    
+    
+</body>
+</html>
